@@ -1,13 +1,23 @@
-# Exercise ex02
+# Exercise ex02 - Single Responsibility Principle
 
-How to run:
+## SOLID Violations Fixed:
+- **Single Responsibility Principle**: Separated media player concerns into focused classes
+
+## How to run:
 ```bash
 cd src
-javac Demo02.java.java
+javac *.java
 java Demo02
 ```
 
-Tasks:
-- Identify the SOLID violation(s)
-- Refactor to comply with all SOLID principles
-- Keep behavior; add a tiny demo/test
+## Refactoring Details:
+- Created `MediaDecoder` for frame decoding
+- Created `FrameCache` for frame management  
+- Created `PlaybackUI` for user interface display
+- Updated `Player` to orchestrate these components
+- Each class now has a single, focused responsibility
+
+## Behavior Preserved:
+- Frame decoding and caching
+- Playback status display
+- Console output for demonstration
