@@ -5,10 +5,31 @@ import java.util.List;
 public class OrderService {
 
     public Order createOrder(String id, String email, List<OrderLine> lines, Integer discount, boolean expedited, String notes) {
-        Order o = new Order(id, email, discount);
-        if (lines != null) for (OrderLine l : lines) o.addLine(l);
-        o.setExpedited(expedited);
-        o.setNotes(notes);
-        return o;
+        // Using the builder pattern - much cleaner than the old way!
+        Order.Builder builder = new Order.Builder(id, email);
+        
+        if (lines != null) {
+            builder.addLines(lines);
+        }
+        
+        if (discount != null) {
+            builder.discountPercent(discount);
+        }
+        
+        if (expedited) {
+            builder.expedited(true);
+        }
+        
+        if (notes != null && !notes.trim().isEmpty()) {
+            builder.notes(notes);
+        }
+        
+        return builder.build();
+    }
+    
+    public Order createSimpleOrder(String id, String email, List<OrderLine> lines) {
+        return new Order.Builder(id, email)
+            .addLines(lines)
+            .build();
     }
 }
