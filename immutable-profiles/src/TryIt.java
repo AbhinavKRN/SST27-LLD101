@@ -64,23 +64,5 @@ public class TryIt {
             System.out.println("   [OK] Validation caught error: " + e.getMessage());
         }
         System.out.println();
-        
-        // Show the fluent Builder API
-        System.out.println("6. Fluent Builder API:");
-        UserProfile fluentProfile = UserProfile.builder()
-                .id("fluent123")
-                .email("fluent@example.com")
-                .phone("555-9999")
-                .displayName("Fluent User")
-                .build();
-        System.out.println("   Created with fluent API: " + fluentProfile);
-        System.out.println();
-        
-        System.out.println("=== Key Benefits of Immutability ===");
-        System.out.println("[+] Thread-safe - can be shared between threads without synchronization");
-        System.out.println("[+] Bug-resistant - can't accidentally change data after creation");
-        System.out.println("[+] Predictable - object state never changes during its lifetime");
-        System.out.println("[+] Cacheable - can be safely cached and reused");
-        System.out.println("[+] Builder pattern - clean, readable object construction");
     }
 }
