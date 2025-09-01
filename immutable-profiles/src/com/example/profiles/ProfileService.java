@@ -9,20 +9,72 @@ public class ProfileService {
 
     // returns a fully built profile but mutates it afterwards (bug-friendly)
     public UserProfile createMinimal(String id, String email) {
-        if (id == null || id.isBlank()) throw new IllegalArgumentException("bad id");
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("bad email");
-
-        UserProfile p = new UserProfile(id, email);
-        // later code keeps mutating...
-        return p;
+        return UserProfile.builder()
+                .id(id)
+                .email(email)
+                .build();
     }
 
-    public void updateDisplayName(UserProfile p, String displayName) {
-        Objects.requireNonNull(p, "profile");
-        if (displayName != null && displayName.length() > 100) {
-            // silently trim (inconsistent policy)
-            displayName = displayName.substring(0, 100);
+    /**
+     * Creates a full profile with all details.
+     * The Builder handles validation automatically.
+     */
+    public UserProfile createFullProfile(String id, String email, String phone, 
+                                       String displayName, String address, 
+                                       boolean marketingOptIn, String twitter, String github) {
+        return UserProfile.builder()
+                .id(id)
+                .email(email)
+                .phone(phone)
+                .displayName(displayName)
+                .address(address)
+                .marketingOptIn(marketingOptIn)
+                .twitter(twitter)
+                .github(github)
+                .build();
+    }
+
+    public UserProfile createSocialProfile(String id, String email, String twitter, String github) {
+        return UserProfile.builder()
+                .id(id)
+                .email(email)
+                .twitter(twitter)
+                .github(github)
+                .build();
+    }
+
+    public UserProfile updateDisplayName(UserProfile existingProfile, String newDisplayName) {
+        Objects.requireNonNull(existingProfile, "Profile cannot be null");
+        
+        if (newDisplayName != null && newDisplayName.length() > 100) {
+            newDisplayName = newDisplayName.substring(0, 100);
         }
-        p.setDisplayName(displayName); // mutability leak
+
+        return UserProfile.builder()
+                .id(existingProfile.getId())
+                .email(existingProfile.getEmail())
+                .phone(existingProfile.getPhone())
+                .displayName(newDisplayName)
+                .address(existingProfile.getAddress())
+                .marketingOptIn(existingProfile.isMarketingOptIn())
+                .twitter(existingProfile.getTwitter())
+                .github(existingProfile.getGithub())
+                .build();
+    }
+
+    public UserProfile updateProfile(UserProfile existingProfile, String newDisplayName, 
+                                   String newAddress, boolean newMarketingOptIn) {
+        Objects.requireNonNull(existingProfile, "Profile cannot be null");
+        
+        return UserProfile.builder()
+                .id(existingProfile.getId())
+                .email(existingProfile.getEmail())
+                .phone(existingProfile.getPhone())
+                .displayName(newDisplayName != null ? newDisplayName : existingProfile.getDisplayName())
+                .address(newAddress != null ? newAddress : existingProfile.getAddress())
+                .marketingOptIn(newMarketingOptIn)
+                .twitter(existingProfile.getTwitter())
+                .github(existingProfile.getGithub())
+                .build();
     }
 }
