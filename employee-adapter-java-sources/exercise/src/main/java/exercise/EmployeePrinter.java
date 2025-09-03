@@ -6,10 +6,10 @@ public final class EmployeePrinter {
   private EmployeePrinter() {}
   public static void print(Collection<Employee> employees) {
     for (Employee e : employees) {
-      System.out.println(
-        String.format("ID=%s, First=%s, Last=%s, Email=%s",
-          emptyToDash(e.getId()), emptyToDash(e.getFirstName()), emptyToDash(e.getLastName()), emptyToDash(e.getEmail()))
-      );
+      System.out.println("ID=" + emptyToDash(e.getId())
+        + ", First=" + emptyToDash(e.getFirstName())
+        + ", Last=" + emptyToDash(e.getLastName())
+        + ", Email=" + emptyToDash(e.getEmail()));
     }
   }
 
