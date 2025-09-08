@@ -6,5 +6,9 @@ public class Cappuccino extends Beverage{
 	public int cost() {
 		return 10;
 	}
-
+	
+	@Override
+	public String getDescription() {
+		return "Cappuccino";
+	}
 }

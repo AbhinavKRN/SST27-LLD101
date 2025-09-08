@@ -6,5 +6,9 @@ public class Latte extends Beverage {
 	public int cost() {
 		return 20;
 	}
-
+	
+	@Override
+	public String getDescription() {
+		return "Latte";
+	}
 }
