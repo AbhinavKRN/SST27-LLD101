@@ -11,23 +11,40 @@ public class Demo {
         // Baseline behavior (already works)
         base.notify("Baseline email only.");
 
-        // === YOUR TASKS ===
-        // 1) Create a base decorator class: NotifierDecorator implements Notifier and wraps another Notifier.
-        // 2) Create concrete decorators:
-        //      - SmsDecorator (adds SMS send)
-        //      - WhatsAppDecorator (adds WhatsApp send)
-        //      - SlackDecorator (adds Slack send)
-        // 3) Compose at runtime to achieve these combinations:
-        //      a) Email + SMS
-        //      b) Email + WhatsApp
-        //      c) Email + Slack
-        //      d) Email + WhatsApp + Slack
-        //
-        // Example (after you implement):
-        // Notifier smsAndEmail = new SmsDecorator(base, "+91-99999-11111");
-        // smsAndEmail.notify("Build green ✅");
-        //
-        // Notifier full = new SlackDecorator(new WhatsAppDecorator(base, "user_wa"), "deployments");
-        // full.notify("Deployment completed 🚀");
+        System.out.println("\n=== Decorator Combinations ===\n");
+        
+        // a) Email + SMS
+        System.out.println("1. Email + SMS:");
+        Notifier smsAndEmail = new SmsDecorator(base, "+91-99999-11111");
+        smsAndEmail.notify("Build green [SUCCESS]");
+        
+        System.out.println("\n2. Email + WhatsApp:");
+        // b) Email + WhatsApp
+        Notifier whatsAppAndEmail = new WhatsAppDecorator(base, "user_wa");
+        whatsAppAndEmail.notify("Code review needed [REVIEW]");
+        
+        System.out.println("\n3. Email + Slack:");
+        // c) Email + Slack
+        Notifier slackAndEmail = new SlackDecorator(base, "deployments");
+        slackAndEmail.notify("Database backup completed [BACKUP]");
+        
+        System.out.println("\n4. Email + WhatsApp + Slack:");
+        // d) Email + WhatsApp + Slack
+        Notifier allChannels = new SlackDecorator(
+            new WhatsAppDecorator(base, "user_wa"), 
+            "deployments"
+        );
+        allChannels.notify("Deployment completed [DEPLOY]");
+        
+        System.out.println("\n5. Email + SMS + WhatsApp + Slack (All channels):");
+        // All notification channels
+        Notifier superNotifier = new SlackDecorator(
+            new WhatsAppDecorator(
+                new SmsDecorator(base, "+91-99999-11111"), 
+                "user_wa"
+            ), 
+            "critical-alerts"
+        );
+        superNotifier.notify("CRITICAL: System maintenance required! [WARNING]");
     }
 }
